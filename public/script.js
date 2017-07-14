@@ -73,42 +73,42 @@ function drawCell(cell) {
 		case 0 : ctx.fillStyle = "#FF0000";	
 			break;
 		case 2 : ctx.fillStyle = "#FF0033";
-			loadImage('./resources/scroll_of_wisdom.png',
+			loadImage('./resources/Scroll_of_Wisdom.png',
 			cell.x,
 			cell.y);	
 			break;
 		case 4 : ctx.fillStyle = "#FF00A6";
-			loadImage('./resources/orb_of_transmutation.png', cell.x, cell.y);
+			loadImage('./resources/Orb_of_Transmutation.png', cell.x, cell.y);
 			break;
 		case 8 : ctx.fillStyle = "#DE00FF";
-			loadImage('./resources/orb_of_alteration.png', cell.x, cell.y);
+			loadImage('./resources/Orb_of_Alteration.png', cell.x, cell.y);
 			break;
 		case 16 : ctx.fillStyle = "#6F00FF";
-			loadImage('./resources/orb_of_chance.png', cell.x, cell.y);
+			loadImage('./resources/Orb_of_Chance.png', cell.x, cell.y);
 			break;
 		case 32 : ctx.fillStyle = "#003CFF";
-			loadImage('./resources/orb_of_alchemy.png', cell.x, cell.y);
+			loadImage('./resources/Orb_of_Alchemy.png', cell.x, cell.y);
 			break;
 		case 64 : ctx.fillStyle = "#00EBFF";
-			loadImage('./resources/blessed_orb.png', cell.x, cell.y);
+			loadImage('./resources/Blessed_Orb.png', cell.x, cell.y);
 			break;
 		case 128 : ctx.fillStyle = "#00FF8D";
-			loadImage('./resources/orb_of_regret.png', cell.x, cell.y);
+			loadImage('./resources/Orb_of_Regret.png', cell.x, cell.y);
 			break;
 		case 256 : ctx.fillStyle = "#00FF22";
-			loadImage('./resources/chaos_orb.png', cell.x, cell.y);
+			loadImage('./resources/Chaos_Orb.png', cell.x, cell.y);
 			break;
 		case 512 : ctx.fillStyle = "#7CFF00";
-			loadImage('./resources/gemcutter\'s_prism.png', cell.x, cell.y);
+			loadImage('./resources/Gemcutter\'s_Prism.png', cell.x, cell.y);
 			break;
 		case 1024 : ctx.fillStyle = "#F7FF00";
-			loadImage('./resources/divine_orb.png', cell.x, cell.y);
+			loadImage('./resources/Divine_Orb.png', cell.x, cell.y);
 			break;
 		case 2048 : ctx.fillStyle = "#FF7C00";
-			loadImage('./resources/exalted_orb.png', cell.x, cell.y);
+			loadImage('./resources/Exalted_Orb.png', cell.x, cell.y);
 			break;
 		case 4096 : ctx.fillStyle = "#FF2F00";
-			loadImage('./resources/mirror_of_kalandra.png', cell.x, cell.y);
+			loadImage('./resources/Mirror_of_Kalandra.png', cell.x, cell.y);
 			break;
 		default: ctx.fillStyle = "#FFFFFF";
 	}
@@ -280,6 +280,7 @@ function noValidMoves() {
 					else if (cells[row][j].value == cells[i][j].value) {
 						return false;
 					}
+					else break;
 				}
 				row = i;
 				while (row-- > 0) {
@@ -289,6 +290,7 @@ function noValidMoves() {
 					else if (cells[row][j].value == cells[i][j].value) {
 						return false;
 					}
+					else break;
 				}
 
 				var col = j;
@@ -299,8 +301,9 @@ function noValidMoves() {
 					else if (cells[i][col].value == cells[i][j].value) {
 						return false;
 					}
+					else break;
 				}
-				col = i - 1;
+				col = j;
 				while (col-- > 0) {
 					if (!cells[i][col].value) {
 						continue;
@@ -308,6 +311,7 @@ function noValidMoves() {
 					else if (cells[i][col].value == cells[i][j].value) {
 						return false;
 					}
+					else break;
 				}
 			}
 		}
