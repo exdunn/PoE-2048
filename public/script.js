@@ -7,6 +7,7 @@ var sizeInput = document.getElementById("size");
 var changeSize = document.getElementById("change-size");
 var scoreLabel = document.getElementById("score");
 
+var team = "Myself";
 var score = 0;
 var size = 4;
 var width = canvas.width / size - 6;
@@ -16,7 +17,8 @@ var images = [];
 var fontSize;
 var loss = false;
 
-startGame();
+const database = firebase.database();
+testStart();
 
 changeSize.onclick = function () {
 	if (sizeInput.value >= 2 && sizeInput.value <= 20) {
@@ -44,7 +46,19 @@ function loadImage(src, x, y) {
 	}
 }
 
+function testStart() {
+	loss = false;
+	canvas.style.opacity = "1.0";
+	createCells();	
+	cells[0][0].value = 2;
+	cells[1][0].value = 2;
+	cells[2][0].value = 4;
+	drawAllCells();
+}
+
 function startGame() {
+	loss = false;
+	canvas.style.opacity = "1.0";
 	createCells();
 	drawAllCells();
 	pasteNewCell();
@@ -153,10 +167,11 @@ document.onkeydown = function(event) {
 function moveUp() {
 	var move = false;
 	for (var j = 0; j < size; j++) {
+		var stop = 0;
 		for (var i = 0; i < size; i++) {
 			if (cells[i][j].value) {
 				var row  = i;	
-				while (row > 0) {
+				while (row > stop) {
 					if (!cells[row - 1][j].value) {
 						move = true;
 						cells[row - 1][j].value = cells[row][j].value;
@@ -164,6 +179,7 @@ function moveUp() {
 						row--;
 					}
 					else if (cells[row - 1][j].value == cells[row][j].value) {
+						stop = row;
 						move = true;
 						cells[row - 1][j].value *= 2;
 						score += cells[row - 1][j].value;
@@ -182,10 +198,11 @@ function moveUp() {
 function moveRight() {
 	var move = false;
 	for (var i = 0; i < size; i++) {
+		var stop = size - 1;
 		for (var j = size - 2; j >= 0; j--) {
 			if (cells[i][j].value) {
 				var col  = j;	
-				while (col < size - 1) {
+				while (col < stop) {
 					if (!cells[i][col + 1].value) {
 						move = true;
 						cells[i][col + 1].value = cells[i][col].value;
@@ -193,6 +210,7 @@ function moveRight() {
 						col++;
 					}
 					else if (cells[i][col + 1].value == cells[i][col].value) {
+						stop = col;
 						move = true;
 						cells[i][col + 1].value *= 2;
 						score += cells[i][col + 1].value;		
@@ -210,10 +228,11 @@ function moveRight() {
 function moveDown() {
 	var move = false;
 	for (var j =  0; j < size; j++) {
+		var stop = size - 1;
 		for (var i = size - 2; i >= 0; i--) {
 			if (cells[i][j].value) {
 				var row  = i;	
-				while (row < size - 1) {
+				while (row < stop) {
 					if (!cells[row + 1][j].value) {
 						move = true;
 						cells[row + 1][j].value = cells[row][j].value;
@@ -221,6 +240,7 @@ function moveDown() {
 						row++;
 					}
 					else if (cells[row + 1][j].value == cells[row][j].value) {
+						stop = row;
 						move = true;
 						cells[row + 1][j].value *= 2;
 						score += cells[row + 1][j].value;
@@ -239,10 +259,11 @@ function moveDown() {
 function moveLeft() {
 	var move = false;
 	for (var i = 0; i < size; i++) {
+		var stop = 0;
 		for (var j = 1; j < size; j++) {
 			if (cells[i][j].value) {
 				var col  = j;	
-				while (col > 0) {
+				while (col > stop) {
 					if (!cells[i][col - 1].value) {
 						move = true;
 						cells[i][col - 1].value = cells[i][col].value;
@@ -250,6 +271,7 @@ function moveLeft() {
 						col--;
 					}
 					else if (cells[i][col - 1].value == cells[i][col].value) {
+						stop = col;
 						move = true;
 						cells[i][col - 1].value *= 2;
 						score += cells[i][col - 1].value;
@@ -320,6 +342,15 @@ function noValidMoves() {
 }
 
 function finishGame() {
+	writeObjectData(team, score);
 	canvas.style.opacity = "0.5";
 	loss = true;
+	score = 0;
+}
+
+function writeObjectData(name, value) {
+	database.ref('team/' + name).set({
+		score: value,
+		timestamp: Date.now()
+	});
 }
