@@ -1,6 +1,4 @@
 var table = '';
-var rows = 10;
-var cols = 3;
 
 var ref = database.ref('/team');
 fetchData();
@@ -11,31 +9,16 @@ function fetchData() {
 			var childKey = childSnapshot.key;
 			var childData = childSnapshot.val();
 			table +='<tr>';
-			table += '<td>' + childKey + '</td>';
+			table += '<td style="padding-left:20px">' + childKey + '</td>' + '<td>' + childData + '</td>';
 			table +='</tr>';
 		});
-		
-		document.getElementById('leaderBoard').innerHTML = '<table>' + table + '</table>';
+
+		var tbody = document.getElementById('leaderbody');
+		var tempNode = tbody.ownerDocument.createElement('div');
+		tempNode.innerHTML = "<table class=\"highlight\">" + table + '</table>';
+		tbody.parentNode.replaceChild(tempNode.firstChild.firstChild, tbody);
+
+		//document.getElementById("leaderboard").innerHtml = '<tbody>' + table + '</tbody>';
 	});
-	
-}
 
-function createTable(data) {
-	for (var element in data) {
-		console.log(element);
-		for (var prop in element) {
-			console.log(prop);
-		}	
-	}
-
-console.log(data);
-
-	fields.forEach(function(element) {
-		table +='<tr>';
-		for (var i = 0; i < 2; i++) {
-			table += '<td>' + element + '</td>';
-		}
-		table +='</tr>';
-	});
-	document.write('<table>' + table + '</table>');
 }

@@ -3,6 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<link href="style.css" rel="stylesheet">
+
+	<!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="../node_modules/materialize-css/dist/css/materialize.min.css"  media="screen,projection"/>
+
 	<title>PoE 2048</title>
 </head>
 <body>
@@ -29,12 +33,32 @@
 		<input id="change-size" type="button" value="Ok">
 		<div class="clear"></div>
 	</div>
-	<div id="canvas-bloc">
-		<canvas id="canvas" width="500" height="500"></canvas>
+	<div class="row" id="background-bloc">
+		<div class="col s3">
+			<table class="highlight z-depth-3 container" id="leaderboard">
+				<thead>
+				    <tr>
+				        <th id="leaderboard-label">Name</th>
+				        <th id="leaderboard-label">Score</th>
+				    </tr>
+				</thead>
+				<tbody id="leaderbody">
+				</tbody>
+			</table>
+
+		</div>
+		<div class="col s9 card-panel teal lighten-2" id="canvas-bloc">
+			<canvas id="canvas" width="500" height="500"></canvas>
+		</div>
 	</div>
-	<div id="leaderBoard"></div>
+
+	<!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../node_modules/materialize-css/dist/js/materialize.min.js"></script>
 	<script src="utilities.js"></script>
 	<script src="script.js"></script>
 	<script src="leaderBoard.js"></script>
+	
+	
 </body>
 </html>
